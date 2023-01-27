@@ -61,6 +61,12 @@ def get_img(href, index):
                 handler.write(img_data)
     else:
         os.mkdir(f"./data/{index}")
+        soup = BeautifulSoup(get_html(href).text, 'html.parser')
+        img = soup.find_all('img', class_="gallery-picture__image sc-lazy-image lazyload")[:3]
+        for i in img:
+            img_data = requests.get(i['data-src']).content
+            with open(f'./data/{index}/{img.index(i)}.jpg', 'wb') as handler:
+                handler.write(img_data)
 
 
 # Could make a class
